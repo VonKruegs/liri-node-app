@@ -40,6 +40,10 @@ function runCommand(command, searchTerm){
   
   else if (command === "movie-this"){
 
+    if (searchTerm.length === 0){
+      searchTerm = "Mr. Nobody";
+    }
+
     movieThis(searchTerm)
     console.log(searchTerm);
 
@@ -101,12 +105,9 @@ function spotifyThis(song) {
       console.log(err);
     });
 };
+
 function movieThis(title){
 
-  if (title.length = 0) {
-    title === "Mr. Nobody";
-    console.log(title);
-  }
 
   console.log( 'movie this');
   console.log(title.length);
