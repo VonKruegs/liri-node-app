@@ -3,11 +3,55 @@ var keys = require("./keys.js")
 var Spotify = require('node-spotify-api');
 var moment = require ("moment");
 var axios = require("axios");
+var fs = require("fs")
 
-if (process.argv[2] == 'concert-this' ) {
+var command = process.argv[2]
+
+//make sure to add function for OMDB as well as the liri if statement "movie-this"
+
+
+
+
+if (command === "do-what-it-says"){
+  // grab the actual command
+  fs.readFile("random.txt", "utf-8", function(error,data){
+    var dataArr = data.split(",");
+    runCommand(dataArr[0],dataArr[1]);
+
+  }
+  )
+  // grab the search term from file
+}
+
+else{
+  var searchTerm = process.argv.slice(3).join(" ")
+  runCommand(command, searchTerm)
+
+}
+
+function runCommand(command, searchTerm){
+  if (command === "concert-this"){
+    concertThis(searchTerm)
+  }
+  
+  else if(command === "spotify-this-song"){
+    spotifyThis(searchTerm)
+  }
+  
+  else if (command === "movie-this"){
+
+    movieThis(searchTerm)
+    console.log(searchTerm);
+
+  }
+  
+
+}
+
+function concertThis(artist){
+
   console.log( 'concert this');
 
-  var artist = process.argv.slice(3).join(" ")
   console.log(artist);
 
   var queryURL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
@@ -32,23 +76,61 @@ if (process.argv[2] == 'concert-this' ) {
     });
 
   };
+  
+function spotifyThis(song) {
 
-//add movie spotify and the other random text function
-//Spotify
-if (process.argv[2] == 'spotify-this-song' ) {
-  console.log( 'spotify this song');
-
-  var song = process.argv.slice(3).join(" ")
-  console.log(song);
-  console.log(keys.spotify)
+  //console.log(keys.spotify)
   var spotify = new Spotify(keys.spotify);
 
    
   spotify.search({ type: 'track', query: song})
     .then(function(response) {
-      console.log(response);
+      for(var i=0; i < response.tracks.items.length; i++) {
+        var song = response.tracks.items[i]
+      console.log(song.artists[0].name);
+      console.log(song.preview_url)
+      console.log(song.name)
+      console.log(song.album.name)
+
+      console.log("\n====================================\n")
+
+      }
+
     })
     .catch(function(err) {
       console.log(err);
     });
 };
+function movieThis(title){
+
+  if (title.length = 0) {
+    title === "Mr. Nobody";
+    console.log(title);
+  }
+
+  console.log( 'movie this');
+  console.log(title.length);
+
+  var key = (keys.omdbKey);
+
+  var queryURL = ("http://www.omdbapi.com/?apikey=" + key + "&t=" + title);
+
+  axios.get(queryURL).then(function(response) {
+
+    console.log(response);
+
+      var movie = response.data
+    // Then we print out the imdbRating
+    console.log("Movie Title: " + movie.Title);
+    console.log("Year of Movie: " + movie.Year);
+    console.log("IMDB Rating: " + movie.imdbRating);
+    console.log("Rotten Tomatoes Rating: " + movie.Metascore);
+    console.log("Country of Production: " + movie.Country);
+    console.log("Movie Language: " + movie.Language);
+    console.log("Movie Plot: " + movie.Plot);
+    console.log("Actors in the Movie: " + movie.Actors);
+
+
+    console.log("\n====================================\n")
+});
+}
