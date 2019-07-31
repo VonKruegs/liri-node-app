@@ -1,10 +1,8 @@
-//require("dotenv").config();
-//var keys = require("./keys.js")
-//var spotify = new Spotify(keys.spotify);
+require("dotenv").config();
+var keys = require("./keys.js")
+var Spotify = require('node-spotify-api');
 var moment = require ("moment");
-
 var axios = require("axios");
-//var request = require("request");
 
 if (process.argv[2] == 'concert-this' ) {
   console.log( 'concert this');
@@ -36,3 +34,21 @@ if (process.argv[2] == 'concert-this' ) {
   };
 
 //add movie spotify and the other random text function
+//Spotify
+if (process.argv[2] == 'spotify-this-song' ) {
+  console.log( 'spotify this song');
+
+  var song = process.argv.slice(3).join(" ")
+  console.log(song);
+  console.log(keys.spotify)
+  var spotify = new Spotify(keys.spotify);
+
+   
+  spotify.search({ type: 'track', query: song})
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+};
