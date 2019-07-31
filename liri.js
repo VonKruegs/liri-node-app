@@ -35,7 +35,12 @@ function runCommand(command, searchTerm){
   }
   
   else if(command === "spotify-this-song"){
+    
+    if (searchTerm.length === 0) {
+      searchTerm = "The Sign";
+    }
     spotifyThis(searchTerm)
+    
   }
   
   else if (command === "movie-this"){
@@ -89,12 +94,13 @@ function spotifyThis(song) {
    
   spotify.search({ type: 'track', query: song})
     .then(function(response) {
+      
       for(var i=0; i < response.tracks.items.length; i++) {
-        var song = response.tracks.items[i]
-      console.log(song.artists[0].name);
-      console.log(song.preview_url)
-      console.log(song.name)
-      console.log(song.album.name)
+        var songs = response.tracks.items[i]
+      console.log(songs.artists[0].name);
+      console.log(songs.preview_url)
+      console.log(songs.name)
+      console.log(songs.album.name)
 
       console.log("\n====================================\n")
 
