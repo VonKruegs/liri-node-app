@@ -2,22 +2,22 @@
 
 ## Purpose!
 
-Create LIRI which is a _Language_ Interpretation and Recognition Interface. LIRI is a command line node app that takes in parameters and gives back formatted data.
+Create LIRI which is a Language Interpretation and Recognition Interface. LIRI is a command line node app that takes in parameters and gives back formatted data.
 
 ## Packages Required!
 
 ### NPM Packages
 
-node-spotify-api
-moment
-axios
-fs
-dotenv
+- node-spotify-api
+- moment
+- axios
+- fs
+- dotenv
 
 ### Created
 
-keys.js
-.env
+- keys.js
+- .env
 
 The keys.js file exports the various api keys to the liri script from the .env file in order to add some security aroudn the keys.
 
@@ -214,7 +214,7 @@ AND IF NO MOVIE TITLE IS ENTERED AS THE SEARCHTERM:
 ![](/exampleimages/moviethisnotitle.png)
 
 
-#THATS IT!
+# THATS IT!
 
 
 
