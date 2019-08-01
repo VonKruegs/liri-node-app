@@ -1,16 +1,31 @@
-require("dotenv").config();
-var keys = require("./keys.js")
-var Spotify = require('node-spotify-api');
-var moment = require ("moment");
-var axios = require("axios");
-var fs = require("fs")
+# LIRI Bot
 
-var command = process.argv[2]
+## Purpose!
 
-//make sure to add function for OMDB as well as the liri if statement "movie-this"
+Create LIRI which is a _Language_ Interpretation and Recognition Interface. LIRI is a command line node app that takes in parameters and gives back formatted data.
 
+## Packages Required!
 
+### NPM Packages
 
+node-spotify-api
+moment
+axios
+fs
+dotenv
+
+### Created
+
+keys.js
+.env
+
+The keys.js file exports the various api keys to the liri script from the .env file in order to add some security aroudn the keys.
+
+# What Liri Does!
+
+## Upfront Command Differentiation!
+
+Liri takes in a command and a searchTerm and executes various functions. Most require user input via the command prompt line, however Liri can also read files instead of user input. The command "do-what-it-says" reads a file, while the rest of them require user input from the command line. So these commands are differentiated up front from the readFile to keep things simple in the code:
 
 if (command === "do-what-it-says"){
   // grab the actual command
@@ -20,8 +35,8 @@ if (command === "do-what-it-says"){
 
   }
   )
-  // grab the search term from file
 }
+###// The rest require user input from the command line in position 2 which is the actual command and position 3 which is the searchTerm i.e. a song, band name, movie title etc. These are exectued by a basic runCommand function that takes the command and searchTerm and runs it to further simplify the code upfront:
 
 else{
   var searchTerm = process.argv.slice(3).join(" ")
@@ -37,7 +52,7 @@ function runCommand(command, searchTerm){
   else if(command === "spotify-this-song"){
     
     if (searchTerm.length === 0) {
-      searchTerm = "The Sign by Ace of Base";
+      searchTerm = "The Sign";
     }
     spotifyThis(searchTerm)
     
@@ -56,6 +71,23 @@ function runCommand(command, searchTerm){
   
 
 }
+
+## The Individual Command Functions and examples!
+
+### do-what-it-says reads a file and does whats in the file!
+
+if (command === "do-what-it-says"){
+  // grab the actual command
+  fs.readFile("random.txt", "utf-8", function(error,data){
+    var dataArr = data.split(",");
+    runCommand(dataArr[0],dataArr[1]);
+
+  }
+  )
+
+#### see image file dowhatitsays.png
+
+### concert-this is entered in the command line with a band name following it. It returns info. for the next concert. If no info. it will say that the band is not coming anytime soon:
 
 function concertThis(artist){
 
@@ -85,7 +117,11 @@ function concertThis(artist){
     });
 
   };
-  
+
+  #### See image files concertthis.png and concerthisnoinfo.png
+
+  ### spotify-this-song is entered in the command line with a song name and the song information - all songs with that title and each including a link to play an audible sample file - is returned! If the person does not enter a song name and executes the command it will always return information for a Karaoke versions of The Sign by Ace of Base:
+
 function spotifyThis(song) {
 
   //console.log(keys.spotify)
@@ -112,11 +148,15 @@ function spotifyThis(song) {
     });
 };
 
+#### see images spotifythissong.png and spotifythissongnosong.png
+
+### movie-this is entered in the command line with a movie title and movie information is returned for the film including ratings, year it was made, country of production and more! If a movie title is not entered by the user it returns the information for a film named Mr. Nobody:
+
 function movieThis(title){
 
 
   console.log( 'movie this');
-  //console.log(title.length);
+  console.log(title.length);
 
   var key = (keys.omdbKey);
 
@@ -124,7 +164,7 @@ function movieThis(title){
 
   axios.get(queryURL).then(function(response) {
 
-    //console.log(response);
+    console.log(response);
 
       var movie = response.data
     // Then we print out the imdbRating
@@ -141,3 +181,8 @@ function movieThis(title){
     console.log("\n====================================\n")
 });
 }
+
+#### see images moviethis.png and moviethisnotitle.png
+
+
+
