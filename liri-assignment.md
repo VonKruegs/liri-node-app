@@ -26,7 +26,7 @@ The keys.js file exports the various api keys to the liri script from the .env f
 ## Upfront Command Differentiation!
 
 Liri takes in a command and a searchTerm and executes various functions. Most require user input via the command prompt line, however Liri can also read files instead of user input. The command "do-what-it-says" reads a file, while the rest of them require user input from the command line. So these commands are differentiated up front from the readFile to keep things simple in the code:
-
+```
 if (command === "do-what-it-says"){
   // grab the actual command
   fs.readFile("random.txt", "utf-8", function(error,data){
@@ -36,8 +36,9 @@ if (command === "do-what-it-says"){
   }
   )
 }
-###// The rest require user input from the command line in position 2 which is the actual command and position 3 which is the searchTerm i.e. a song, band name, movie title etc. These are exectued by a basic runCommand function that takes the command and searchTerm and runs it to further simplify the code upfront:
-
+```
+ELSE! The rest require user input from the command line in position 2 which is the actual command and position 3 which is the searchTerm i.e. a song, band name, movie title etc. These are exectued by a basic runCommand function that takes the command and searchTerm and runs it to further simplify the code upfront:
+```
 else{
   var searchTerm = process.argv.slice(3).join(" ")
   runCommand(command, searchTerm)
@@ -71,11 +72,12 @@ function runCommand(command, searchTerm){
   
 
 }
-
+```
 ## The Individual Command Functions and examples!
 
-### do-what-it-says reads a file and does whats in the file!
-
+### do-what-it-says:
+Do-what-it-says reads the random.txt file which has a command and a searchTerm in it. The function literally reads the file and does exactly whats the file tells it to!
+```
 if (command === "do-what-it-says"){
   // grab the actual command
   fs.readFile("random.txt", "utf-8", function(error,data){
@@ -84,12 +86,15 @@ if (command === "do-what-it-says"){
 
   }
   )
-
+```
 #### see image file dowhatitsays.png
 
-### concert-this is entered in the command line with a band name following it. It returns info. for the next concert. If no info. it will say that the band is not coming anytime soon:
+![](/exampleimages/dowhatitsays.png)
 
-function concertThis(artist){
+### concert-this:
+ Concert-this is entered in the command line with a band name following it. It returns info. for the next concert. If no info. it will say that the band is not coming anytime soon:
+
+```function concertThis(artist){
 
   console.log( 'concert this');
 
@@ -117,11 +122,22 @@ function concertThis(artist){
     });
 
   };
+```
+  #### See image files concertthis.png and concerthisifnoinfo.png
 
-  #### See image files concertthis.png and concerthisnoinfo.png
+  
 
-  ### spotify-this-song is entered in the command line with a song name and the song information - all songs with that title and each including a link to play an audible sample file - is returned! If the person does not enter a song name and executes the command it will always return information for a Karaoke versions of The Sign by Ace of Base:
+  ![](/exampleimages/concertthis.png)
 
+  AND IF NO CONCERT INFO IS RETURNED FROM API:
+
+  ![](/exampleimages/concertthisifnoinfo.png)
+
+
+
+  ### spotify-this-song:
+   Spotify-this-song is entered in the command line with a song name and the song information - all songs with that title and each including a link to play an audible sample file - is returned! If the person does not enter a song name and executes the command it will always return information for a Karaoke versions of The Sign by Ace of Base:
+```
 function spotifyThis(song) {
 
   //console.log(keys.spotify)
@@ -147,11 +163,18 @@ function spotifyThis(song) {
       console.log(err);
     });
 };
-
+```
 #### see images spotifythissong.png and spotifythissongnosong.png
 
-### movie-this is entered in the command line with a movie title and movie information is returned for the film including ratings, year it was made, country of production and more! If a movie title is not entered by the user it returns the information for a film named Mr. Nobody:
+![](/exampleimages/spotifythissong.png)
 
+AND IF NO SONG IS ENTERED AS THE SEARCHTERM:
+
+![](/exampleimages/spotifythissongnosong.png)
+
+### movie-this:
+Movie-this is entered in the command line with a movie title and movie information is returned for the film including ratings, year it was made, country of production and more! If a movie title is not entered by the user it returns the information for a film named Mr. Nobody:
+```
 function movieThis(title){
 
 
@@ -181,8 +204,17 @@ function movieThis(title){
     console.log("\n====================================\n")
 });
 }
-
+```
 #### see images moviethis.png and moviethisnotitle.png
+
+![](/exampleimages/moviethis.png)
+
+AND IF NO MOVIE TITLE IS ENTERED AS THE SEARCHTERM:
+
+![](/exampleimages/moviethisnotitle.png)
+
+
+#THATS IT!
 
 
 
